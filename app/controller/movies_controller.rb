@@ -19,13 +19,15 @@ class MoviesController < ApplicationController
     get '/movies/:id' do
         redirect_if_not_logged_in
         redirect_if_not_authorized
-
+        #why do we not have to pass in Movie.find(params[:id])?
+        #@movie = Movie.find_by_id(params[:id])
         erb :'movies/show'
     end
 
     # CREATE new movie (save in db)
     post '/movies' do
         redirect_if_not_logged_in
+        #movie = Movie.new(title: params["title"])
 
         # movie = Movie.new(params["movie"])
         # movie.user_id = session["user_id"]
@@ -43,6 +45,7 @@ class MoviesController < ApplicationController
     get '/movies/:id/edit' do
         redirect_if_not_logged_in
         redirect_if_not_authorized
+        #@movie = Movie.find_by_id(params[:id])
 
         erb :'movies/edit'
     end
@@ -51,6 +54,10 @@ class MoviesController < ApplicationController
     patch '/movies/:id' do
         redirect_if_not_logged_in
         redirect_if_not_authorized
+        #movie = Movie.find_by_id(params[:id])
+        #movie.title = params["title"]
+        #if movie.save and the rest is the same
+
         
         if @movie.update(params["movie"])
             redirect "/movies/#{@movie.id}"
