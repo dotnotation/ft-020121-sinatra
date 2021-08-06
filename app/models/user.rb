@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
     has_secure_password
+    #class method on our User model
+    #available because of ActiveRecord::Base and bcrypt and password_digest field in db
     # METHODS
     # password=
     # authenticate

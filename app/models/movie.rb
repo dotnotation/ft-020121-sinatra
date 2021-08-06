@@ -24,4 +24,5 @@ class Movie < ActiveRecord::Base
     belongs_to :director
 
     validates :title, presence: true
+    #makes sure that a title is present before a movie can be saved 
 end

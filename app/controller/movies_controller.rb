@@ -27,16 +27,17 @@ class MoviesController < ApplicationController
     # CREATE new movie (save in db)
     post '/movies' do
         redirect_if_not_logged_in
-        #movie = Movie.new(title: params["title"])
-
         # movie = Movie.new(params["movie"])
         # movie.user_id = session["user_id"]
-        movie = current_user.movies.build(params["movie"])
+        movie = current_user.movies.build(params["movie"]) #movie can also be a symbol too
 
         if movie.save
             redirect "/movies/#{movie.id}"
         else
             flash[:error] = "#{movie.errors.full_messages.join(", ")}"
+            #renders an error for the user so they know why their movie didn't get saved
+            #if not using rack-flash3 gem: "Error #{movie.errors.full_message.join(", ")}"
+                #the above will render on a new page and won't redirect but you can add sleep 5 so in 5 seconds it will redirect
             redirect "/movies/new"
         end
     end
@@ -59,7 +60,7 @@ class MoviesController < ApplicationController
         #if movie.save and the rest is the same
 
         
-        if @movie.update(params["movie"])
+        if @movie.update(params["movie"]) #update saves automatically so no need to save 
             redirect "/movies/#{@movie.id}"
         else
             redirect "/movies/#{@movie.id}/edit"
@@ -70,6 +71,8 @@ class MoviesController < ApplicationController
     delete "/movies/:id" do
         redirect_if_not_logged_in
         redirect_if_not_authorized
+        #movie = Movie.find_by_id(params[:id])
+        #movie.destroy
 
         @movie.destroy
 
